@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">InventoryApp</string>
+    <string name="app_name">Inventory App</string>
+    <string name="widget_name">Widget Inventario</string>
+    <string name="widget_description">Muestra el saldo general del inventario</string>
+    <string name="logo_inventory">Logo de la aplicación Inventory</string>
+    <string name="cuanto_tengo_de_inventario">¿Cuánto tengo de inventario?</string>
+    <string name="ver_saldo">Ver saldo</string>
+    <string name="inventory">Inventory</string>
+    <string name="cuanto">$ ****</string>
+    <string name="gestionar_inventario">Gestionar inventario</string>
 </resources>

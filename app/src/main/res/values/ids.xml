@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="widget_root" type="id" />
+    <item name="widget_logo" type="id" />
+    <item name="widget_question" type="id" />
+</resources>
