@@ -12,17 +12,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.InventoryApp">
 
-        <!-- Activity principal -->
+        <!-- Activity de Login -->
         <activity
-            android:name=".view.MainActivity"
+            android:name=".view.LoginActivity"
             android:exported="true">
+            <!-- Esta es la PRIMERA pantalla -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
+        <!-- Activity principal (después del login) -->
+        <activity android:name=".view.MainActivity" />
 
+        <!-- Widget -->
         <receiver
             android:name=".view.widget.InventoryWidgetProvider"
             android:exported="false"
@@ -37,5 +41,6 @@
         </receiver>
 
     </application>
+
 
 </manifest>
