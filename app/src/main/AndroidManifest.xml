@@ -26,6 +26,8 @@
         <!-- Activity principal (después del login) -->
         <activity android:name=".view.MainActivity" />
 
+        <activity android:name=".view.HomeActivity" />
+
         <!-- Widget -->
         <receiver
             android:name=".view.widget.InventoryWidgetProvider"
