@@ -3,4 +3,6 @@
     <item name="widget_root" type="id" />
     <item name="widget_logo" type="id" />
     <item name="widget_question" type="id" />
+    <item name="logo_widget" type="id" />
+    
 </resources>
