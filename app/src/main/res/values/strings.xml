@@ -8,5 +8,5 @@
     <string name="inventory">Inventory</string>
     <string name="cuanto">$ ****</string>
     <string name="gestionar_inventario">Gestionar inventario</string>
-    <string name="login_title">Pagina de Login con huella</string>
+    <string name="login_title">Inventory</string>
 </resources>
