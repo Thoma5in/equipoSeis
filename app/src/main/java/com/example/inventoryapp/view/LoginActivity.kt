@@ -15,16 +15,26 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Inicializamos el binding
+        val prefs = getSharedPreferences("user_session", MODE_PRIVATE)
+        val isLoggedIn = prefs.getBoolean("is_logged_in", false)
+
+        // Primero verifica si hay una sesión activa
+        if (isLoggedIn) {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+            return
+        }
+
+        // Si no hay sesión se muestra la pantalla de login
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Conectamos el clic de la animación
         binding.fingerprintAnimation.setOnClickListener {
             showBiometricPrompt()
         }
-
     }
+
 
     private fun showBiometricPrompt() {
         val executor = ContextCompat.getMainExecutor(this)
@@ -61,8 +71,11 @@ class LoginActivity : AppCompatActivity() {
 
     private fun goToMainActivity() {
 //        // Guardar la sesión
-//        val prefs = getSharedPreferences("user_session", MODE_PRIVATE)
-//        prefs.edit { putBoolean("is_logged_in", true) }
+        val prefs = getSharedPreferences("user_session", MODE_PRIVATE)
+        prefs.edit {
+            putBoolean("is_logged_in", true)
+            commit()
+        }
 
         // Lanzar la MainActivity
         val intent = Intent(this, MainActivity::class.java)
