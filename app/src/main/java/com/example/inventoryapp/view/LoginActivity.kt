@@ -1,10 +1,12 @@
 package com.example.inventoryapp.view
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import com.example.inventoryapp.databinding.ActivityLoginBinding
+import androidx.core.content.edit
 
 class LoginActivity : AppCompatActivity() {
 
@@ -21,6 +23,7 @@ class LoginActivity : AppCompatActivity() {
         binding.fingerprintAnimation.setOnClickListener {
             showBiometricPrompt()
         }
+
     }
 
     private fun showBiometricPrompt() {
@@ -32,7 +35,7 @@ class LoginActivity : AppCompatActivity() {
             object : BiometricPrompt.AuthenticationCallback() {
                 override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                     super.onAuthenticationSucceeded(result)
-                    // Aquí manejarás el éxito (lo haremos después)
+                    goToMainActivity()
                 }
 
                 override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
@@ -54,5 +57,18 @@ class LoginActivity : AppCompatActivity() {
             .build()
 
         biometricPrompt.authenticate(promptInfo)
+    }
+
+    private fun goToMainActivity() {
+//        // Guardar la sesión
+//        val prefs = getSharedPreferences("user_session", MODE_PRIVATE)
+//        prefs.edit { putBoolean("is_logged_in", true) }
+
+        // Lanzar la MainActivity
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+
+        // Cerrar el LoginActivity
+        finish()
     }
 }
