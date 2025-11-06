@@ -9,4 +9,5 @@
     <string name="cuanto">$ ****</string>
     <string name="gestionar_inventario">Gestionar inventario</string>
     <string name="login_title">Inventory</string>
+    <string name="huella_content_description">Ingresa tu huella</string>
 </resources>

@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!--por si por si-->
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -25,8 +28,6 @@
 
         <!-- Activity principal (después del login) -->
         <activity android:name=".view.MainActivity" />
-
-        <activity android:name=".view.HomeActivity" />
 
         <!-- Widget -->
         <receiver

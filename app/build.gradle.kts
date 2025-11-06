@@ -103,7 +103,8 @@ dependencies {
     implementation ("com.github.bumptech.glide:glide:4.12.0")
 
     //pa las animations
-    implementation("com.airbnb.android:lottie:6.7.1")
+    implementation ("com.airbnb.android:lottie:6.7.1")
 
-
+    //la autenticacion biometrica :)
+    implementation ("androidx.biometric:biometric:1.1.0")
 }
