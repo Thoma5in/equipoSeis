@@ -102,5 +102,8 @@ dependencies {
     //Glide
     implementation ("com.github.bumptech.glide:glide:4.12.0")
 
+    //pa las animations
+    implementation("com.airbnb.android:lottie:6.7.1")
+
 
 }
