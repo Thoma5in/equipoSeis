@@ -50,12 +50,10 @@ class LoginActivity : AppCompatActivity() {
 
                 override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
                     super.onAuthenticationError(errorCode, errString)
-                    // Aquí puedes mostrar un mensaje o Toast
                 }
 
                 override fun onAuthenticationFailed() {
                     super.onAuthenticationFailed()
-                    // Aquí puedes manejar intentos fallidos
                 }
             }
         )
