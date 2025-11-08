@@ -4,4 +4,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="orange">#e7522e</color>
     <color name="dark_gray">#36454F</color>
+    <color name="black_semi_transparent">#CC000000</color>
+    <color name="gray_toolbar">#424242</color>
 </resources>
