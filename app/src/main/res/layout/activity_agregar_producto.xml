@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black_semi_transparent"
+    tools:context=".view.AgregarProductoActivity">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar_agregar_producto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray_toolbar"
+        app:title="@string/title_agregar_producto"
+        app:titleTextColor="@color/white"
+        app:navigationIcon="@drawable/ic_arrow_back_white"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_codigo_producto"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_agregar_producto"
+        app:hintTextColor="@color/white"
+        app:boxStrokeColor="@color/white"
+        android:hint="@string/hint_codigo_producto"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_codigo_producto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:inputType="number"
+            android:maxLength="4" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_nombre_articulo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@id/til_codigo_producto"
+        app:layout_constraintEnd_toEndOf="@id/til_codigo_producto"
+        app:layout_constraintTop_toBottomOf="@id/til_codigo_producto"
+        app:hintTextColor="@color/white"
+        app:boxStrokeColor="@color/white"
+        android:hint="@string/hint_nombre_articulo"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_nombre_articulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:inputType="text"
+            android:maxLength="40" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_precio"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@id/til_codigo_producto"
+        app:layout_constraintEnd_toEndOf="@id/til_codigo_producto"
+        app:layout_constraintTop_toBottomOf="@id/til_nombre_articulo"
+        app:hintTextColor="@color/white"
+        app:boxStrokeColor="@color/white"
+        android:hint="@string/hint_precio"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_precio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:inputType="numberDecimal"
+            android:maxLength="20" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_cantidad"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@id/til_codigo_producto"
+        app:layout_constraintEnd_toEndOf="@id/til_codigo_producto"
+        app:layout_constraintTop_toBottomOf="@id/til_precio"
+        app:hintTextColor="@color/white"
+        app:boxStrokeColor="@color/white"
+        android:hint="@string/hint_cantidad"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_cantidad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:inputType="number"
+            android:maxLength="4" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <Button
+        android:id="@+id/btn_guardar_producto"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/button_guardar"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:enabled="false"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/orange"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="@id/til_codigo_producto"
+        app:layout_constraintEnd_toEndOf="@id/til_codigo_producto"
+        app:layout_constraintTop_toBottomOf="@id/til_cantidad" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

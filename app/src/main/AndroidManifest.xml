@@ -29,6 +29,10 @@
         <!-- Activity principal (después del login) -->
         <activity android:name=".view.MainActivity" />
 
+        <!-- Activity de agregar ítem -->
+        <activity android:name=".view.AgregarProductoActivity"
+            android:exported="false"
+            />
         <!-- Widget -->
         <receiver
             android:name=".view.widget.InventoryWidgetProvider"

@@ -10,5 +10,12 @@
     <string name="gestionar_inventario">Gestionar inventario</string>
     <string name="login_title">Inventory</string>
     <string name="huella_content_description">Ingresa tu huella</string>
+    // Agregar Producto Strings
+    <string name="title_agregar_producto">Agregar producto</string>
+    <string name="hint_codigo_producto">Código producto</string>
+    <string name="hint_nombre_articulo">Nombre artículo</string>
+    <string name="hint_precio">Precio</string>
+    <string name="hint_cantidad">Cantidad</string>
+    <string name="button_guardar">Guardar</string>
     <string name="cerrar_sesion_description">Cerrar Sesion</string>
 </resources>

@@ -6,10 +6,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.inventoryapp.R
-import com.example.inventoryapp.databinding.ActivityMainBinding
 import androidx.core.content.edit
-
+import com.example.inventoryapp.databinding.ActivityMainBinding // CLAVE: Importar la clase generada
+import com.example.inventoryapp.R
+import com.example.inventoryapp.view.AgregarProductoActivity
+import com.example.inventoryapp.view.LoginActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,12 +19,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
@@ -32,18 +32,23 @@ class MainActivity : AppCompatActivity() {
         binding.imageButton.setOnClickListener {
             logout()
         }
+
+        binding.fabAgregarProducto.setOnClickListener {
+
+            val intent = Intent(this, AgregarProductoActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     private fun logout() {
         val prefs = getSharedPreferences("user_session", MODE_PRIVATE)
         prefs.edit {
-            clear()
-            commit()
+            clear() // Borra la sesión
+            commit() // Guarda los cambios de forma síncrona
         }
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
-        finish()
+        finish() // Cierra MainActivity para que el usuario no pueda volver con el botón "Atrás"
     }
-
-
 }
