@@ -69,9 +69,9 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     //navigation
-    implementation ("androidx.navigation:navigation-fragment-ktx:$navVersion")
-    implementation ("androidx.navigation:navigation-ui-ktx:$navVersion")
-    implementation("androidx.navigation:navigation-common:$navVersion")
+    implementation ("androidx.navigation:navigation-fragment-ktx:2.7.5")
+    implementation ("androidx.navigation:navigation-ui-ktx:2.7.5")
+    implementation("androidx.navigation:navigation-common:2.7.5")
 
     //cardView
     implementation("androidx.cardview:cardview:1.0.0")
