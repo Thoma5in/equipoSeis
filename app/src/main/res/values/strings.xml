@@ -18,4 +18,5 @@
     <string name="hint_cantidad">Cantidad</string>
     <string name="button_guardar">Guardar</string>
     <string name="cerrar_sesion_description">Cerrar Sesion</string>
+    <string name="add_product_description">Añadir producto</string>
 </resources>
