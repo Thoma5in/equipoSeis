@@ -39,6 +39,10 @@ class DetailProductFragment : Fragment() {
             findNavController().navigateUp()
         }
 
+        binding.arrowBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
+
         arguments?.getLong("productId")?.let { productId ->
             homeViewModel.allProducts.observe(viewLifecycleOwner) { products ->
                 products.find { it.codigo.toLong() == productId }?.let { product ->
