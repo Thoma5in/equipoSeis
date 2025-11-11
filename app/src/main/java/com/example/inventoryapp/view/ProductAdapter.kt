@@ -10,10 +10,14 @@ import com.example.inventoryapp.model.Producto // ¡Importación correcta!
 import java.util.Locale // Necesario para el formato de moneda
 
 // 1. Hereda de ListAdapter<Producto, ...>
-class ProductAdapter : ListAdapter<Producto, ProductAdapter.ProductViewHolder>(ProductDiffCallback()) {
+class ProductAdapter(private val onItemClick: (Producto) -> Unit) :
+    ListAdapter<Producto, ProductAdapter.ProductViewHolder>(ProductDiffCallback()) {
 
     // 1. ViewHolder
-    class ProductViewHolder(private val binding: ItemProductoBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ProductViewHolder(
+        private val binding: ItemProductoBinding,
+        private val onItemClick: (Producto) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         // Usa Producto en lugar de Product
         fun bind(producto: Producto) {
@@ -28,10 +32,10 @@ class ProductAdapter : ListAdapter<Producto, ProductAdapter.ProductViewHolder>(P
         }
 
         companion object {
-            fun from(parent: ViewGroup): ProductViewHolder {
+            fun from(parent: ViewGroup, onItemClick: (Producto) -> Unit): ProductViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = ItemProductoBinding.inflate(layoutInflater, parent, false)
-                return ProductViewHolder(binding)
+                return ProductViewHolder(binding, onItemClick)
             }
         }
     }
@@ -49,7 +53,7 @@ class ProductAdapter : ListAdapter<Producto, ProductAdapter.ProductViewHolder>(P
 
     // 3. Métodos del Adapter
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
-        return ProductViewHolder.from(parent)
+        return ProductViewHolder.from(parent, onItemClick)
     }
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {

@@ -19,4 +19,6 @@
     <string name="button_guardar">Guardar</string>
     <string name="cerrar_sesion_description">Cerrar Sesion</string>
     <string name="add_product_description">Añadir producto</string>
+    <string name="aqu_se_mostrar_n_los_detalles_del_producto">Aquí se mostrarán los detalles del producto.</string>
+    <string name="editar_producto">Editar producto</string>
 </resources>
