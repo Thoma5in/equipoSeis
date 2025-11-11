@@ -36,5 +36,3 @@ class MainActivity : AppCompatActivity() {
 
     // Se elimina la función 'private fun logout()' porque ahora está en HomeFragment.kt
 }
-
-
