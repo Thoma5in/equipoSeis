@@ -25,7 +25,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var homeViewModel: HomeViewModel
-    private lateinit var productAdapter : ProductAdapter
+    private val productAdapter = ProductAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

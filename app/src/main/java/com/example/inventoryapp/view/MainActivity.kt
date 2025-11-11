@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-
         // 3. Se eliminan: binding = ActivityMainBinding.inflate(layoutInflater)
         // 4. Se eliminan: setContentView(binding.root)
         // 5. Se eliminan: binding.imageButton.setOnClickListener { logout() }
@@ -37,3 +36,5 @@ class MainActivity : AppCompatActivity() {
 
     // Se elimina la función 'private fun logout()' porque ahora está en HomeFragment.kt
 }
+
+
