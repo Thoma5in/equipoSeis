@@ -1,6 +1,6 @@
 package com.example.inventoryapp.repository
 
-import androidx.lifecycle.LiveData // Necesitas esta importación
+import androidx.lifecycle.LiveData
 import com.example.inventoryapp.data.ProductoDao
 import com.example.inventoryapp.model.Producto
 
@@ -10,5 +10,10 @@ class InventoryRepository(private val productoDao: ProductoDao) {
 
     suspend fun insert(producto: Producto) {
         productoDao.insert(producto)
+    }
+
+    // 🔹 Nuevo método para eliminar producto por ID
+    suspend fun deleteProductById(id: Long) {
+        productoDao.deleteById(id)
     }
 }
