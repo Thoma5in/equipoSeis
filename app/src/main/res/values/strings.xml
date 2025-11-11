@@ -19,6 +19,11 @@
     <string name="button_guardar">Guardar</string>
     <string name="cerrar_sesion_description">Cerrar Sesion</string>
     <string name="add_product_description">Añadir producto</string>
-    <string name="aqu_se_mostrar_n_los_detalles_del_producto">Aquí se mostrarán los detalles del producto.</string>
-    <string name="editar_producto">Editar producto</string>
+    <string name="detail_product_title">Detalle del producto</string>
+    <string name="cantidad_disponible">Cantidad disponible:</string>
+    <string name="cantidad_disponible_placeholder">5</string>
+    <string name="nombre_del_producto">Nombre del producto</string>
+    <string name="precio_por_unidad">Precio por unidad:</string>
+    <string name="precio_unidad_placeholder">$10.00</string>
+    <string name="arrow_back_desc">volver atrás</string>
 </resources>
