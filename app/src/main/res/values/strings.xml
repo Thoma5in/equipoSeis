@@ -26,4 +26,10 @@
     <string name="precio_por_unidad">Precio por unidad:</string>
     <string name="precio_unidad_placeholder">$10.00</string>
     <string name="arrow_back_desc">volver atrás</string>
+    <string name="editar_producto">Editar producto</string>
+    <string name="editar">Editar</string>
+    <string name="cantidad">Cantidad:</string>
+    <string name="precio">Precio:</string>
+    <string name="nombre_art_culo">Nombre artículo:</string>
+    <string name="id">Id:</string>
 </resources>
