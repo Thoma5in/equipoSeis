@@ -4,5 +4,7 @@
     <item name="widget_logo" type="id" />
     <item name="widget_question" type="id" />
     <item name="logo_widget" type="id" />
-    
+    <item name="toolbar_edit" type="id">toolbar_edit</item>
+    <item name="arrow_back_edit" type="id">arrow_back_edit</item>
+
 </resources>
