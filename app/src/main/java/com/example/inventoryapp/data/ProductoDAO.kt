@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.lifecycle.LiveData // Necesitas esta importación
+import androidx.lifecycle.LiveData
 import com.example.inventoryapp.model.Producto
 
 @Dao
@@ -14,4 +14,8 @@ interface ProductoDao {
 
     @Query("SELECT * FROM productos ORDER BY nombre ASC")
     fun getAllProducts(): LiveData<List<Producto>>
+
+    // 🔹 Nuevo método para eliminar producto por ID
+    @Query("DELETE FROM productos WHERE codigo = :id")
+    suspend fun deleteById(id: Long)
 }

@@ -54,6 +54,28 @@ class DetailProductFragment : Fragment() {
                 }
             }
         }
+        binding.btnDelete.setOnClickListener {
+            val builder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
+            builder.setTitle("Confirmar eliminación")
+            builder.setMessage("¿Estás seguro de que deseas eliminar este producto?")
+
+            builder.setNegativeButton("No") { dialog, _ ->
+                dialog.dismiss()
+            }
+
+            builder.setPositiveButton("Sí") { dialog, _ ->
+                arguments?.getLong("productId")?.let { productId ->
+                    // Llamamos al ViewModel para eliminar
+                    homeViewModel.deleteProductById(productId)
+                    // Navegar de nuevo a la pantalla Home
+                    findNavController().navigateUp()
+                }
+                dialog.dismiss()
+            }
+
+            builder.create().show()
+        }
+
     }
 
     override fun onDestroyView() {
