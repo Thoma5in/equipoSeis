@@ -9,15 +9,17 @@ import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope // 🔹 NUEVO: para usar corutinas en fragments
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.inventoryapp.R
 import com.example.inventoryapp.databinding.FragmentHomeBinding
 import com.example.inventoryapp.view.AgregarProductoActivity
 import com.example.inventoryapp.view.LoginActivity
 import com.example.inventoryapp.view.ProductAdapter
 import com.example.inventoryapp.viewmodel.HomeViewModel
-import kotlinx.coroutines.delay // 🔹 NUEVO: para simular retardo
-import kotlinx.coroutines.launch // 🔹 NUEVO: para lanzar la corutina
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
 
@@ -25,7 +27,12 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var homeViewModel: HomeViewModel
-    private val productAdapter = ProductAdapter()
+    private val productAdapter = ProductAdapter { product ->
+        val bundle = Bundle().apply {
+            putLong("productId", product.codigo.toLong())
+        }
+        findNavController().navigate(R.id.action_homeFragment_to_detailProductFragment, bundle)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

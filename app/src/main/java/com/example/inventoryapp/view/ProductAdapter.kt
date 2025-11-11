@@ -9,13 +9,11 @@ import com.example.inventoryapp.databinding.ItemProductoBinding
 import com.example.inventoryapp.model.Producto // ¡Importación correcta!
 import java.util.Locale // Necesario para el formato de moneda
 
-// 1. Hereda de ListAdapter<Producto, ...>
-class ProductAdapter : ListAdapter<Producto, ProductAdapter.ProductViewHolder>(ProductDiffCallback()) {
+class ProductAdapter(private val onItemClicked: (Producto) -> Unit) : ListAdapter<Producto, ProductAdapter.ProductViewHolder>(ProductDiffCallback()) {
 
     // 1. ViewHolder
     class ProductViewHolder(private val binding: ItemProductoBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        // Usa Producto en lugar de Product
         fun bind(producto: Producto) {
             binding.tvNombreProducto.text = producto.nombre
 
@@ -54,6 +52,9 @@ class ProductAdapter : ListAdapter<Producto, ProductAdapter.ProductViewHolder>(P
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         val currentProduct = getItem(position)
+        holder.itemView.setOnClickListener {
+            onItemClicked(currentProduct)
+        }
         holder.bind(currentProduct)
     }
 }

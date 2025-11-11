@@ -5,11 +5,23 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/homeFragment">
     <fragment
-    android:id="@+id/homeFragment"
-    android:name="com.example.inventoryapp.view.fragment.HomeFragment"
-    android:label="fragment_home"
-    tools:layout="@layout/fragment_home" >
+        android:id="@+id/homeFragment"
+        android:name="com.example.inventoryapp.view.fragment.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_detailProductFragment"
+            app:destination="@id/detailProductFragment" />
+    </fragment>
 
-</fragment>
+    <fragment
+        android:id="@+id/detailProductFragment"
+        android:name="com.example.inventoryapp.view.DetailProductFragment"
+        android:label="fragment_detail_product"
+        tools:layout="@layout/fragment_detail_product" >
+        <argument
+            android:name="productId"
+            app:argType="long" />
+    </fragment>
 
 </navigation>
