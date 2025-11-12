@@ -9,7 +9,7 @@ import android.widget.RemoteViews
 import com.example.inventoryapp.R
 import android.content.ComponentName
 import com.example.inventoryapp.data.AppDatabase
-import com.example.inventoryapp.view.MainActivity
+import com.example.inventoryapp.view.LoginActivity
 import com.example.inventoryapp.repository.InventoryRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -72,7 +72,7 @@ class InventoryWidgetProvider : AppWidgetProvider() {
         views.setOnClickPendingIntent(R.id.widget_eye_icon, togglePendingIntent)
 
         // Intent para abrir la app
-        val openIntent = Intent(context, MainActivity::class.java)
+        val openIntent = Intent(context, LoginActivity::class.java)
         val openPendingIntent = PendingIntent.getActivity(
             context, 0, openIntent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
