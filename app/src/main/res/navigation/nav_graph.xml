@@ -18,14 +18,14 @@
     </fragment>
     <fragment
         android:id="@+id/agregarProductoFragment"
-    android:name="com.example.inventoryapp.view.AgregarProductoFragment"
+    android:name="com.example.inventoryapp.view.fragment.AgregarProductoFragment"
     android:label="Agregar Producto"
     tools:layout="@layout/fragment_agregar_producto"/>
 
 
     <fragment
         android:id="@+id/detailProductFragment"
-        android:name="com.example.inventoryapp.view.DetailProductFragment"
+        android:name="com.example.inventoryapp.view.fragment.DetailProductFragment"
         android:label="fragment_detail_product"
         tools:layout="@layout/fragment_detail_product" >
         <argument
@@ -38,7 +38,7 @@
 
     <fragment
         android:id="@+id/editProductFragment"
-        android:name="com.example.inventoryapp.view.EditProductFragment"
+        android:name="com.example.inventoryapp.view.fragment.EditProductFragment"
         android:label="Editar producto" >
         <argument
             android:name="productId"
