@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.inventoryapp.R
 import com.example.inventoryapp.databinding.FragmentDetailProductBinding
 import com.example.inventoryapp.viewmodel.HomeViewModel
 import java.util.Locale
@@ -15,8 +16,8 @@ class DetailProductFragment : Fragment() {
 
     private var _binding: FragmentDetailProductBinding? = null
     private val binding get() = _binding!!
-
     private lateinit var homeViewModel: HomeViewModel
+    private var currentProductId: Long? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,25 +36,33 @@ class DetailProductFragment : Fragment() {
             ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
         ).get(HomeViewModel::class.java)
 
+        // Flecha atrás (toolbar y botón)
         binding.toolbarDetail.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
-
         binding.arrowBack.setOnClickListener {
             findNavController().navigateUp()
         }
 
-        arguments?.getLong("productId")?.let { productId ->
+        // Obtener el ID del producto desde los argumentos
+        currentProductId = arguments?.getLong("productId")
+
+        // Observar los productos y mostrar el que coincida
+        currentProductId?.let { productId ->
             homeViewModel.allProducts.observe(viewLifecycleOwner) { products ->
                 products.find { it.codigo.toLong() == productId }?.let { product ->
                     binding.tvProductName.text = product.nombre
-                    binding.tvUnitPrice.text = String.format(Locale.getDefault(), "$ %,.2f", product.precio)
+                    binding.tvUnitPrice.text =
+                        String.format(Locale.getDefault(), "$ %,.2f", product.precio)
                     binding.tvQuantity.text = product.cantidad.toString()
                     val total = product.precio * product.cantidad
-                    binding.tvTotal.text = String.format(Locale.getDefault(), "$ %,.2f", total)
+                    binding.tvTotal.text =
+                        String.format(Locale.getDefault(), "$ %,.2f", total)
                 }
             }
         }
+
+        // 🔹 Botón eliminar
         binding.btnDelete.setOnClickListener {
             val builder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
             builder.setTitle("Confirmar eliminación")
@@ -64,10 +73,8 @@ class DetailProductFragment : Fragment() {
             }
 
             builder.setPositiveButton("Sí") { dialog, _ ->
-                arguments?.getLong("productId")?.let { productId ->
-                    // Llamamos al ViewModel para eliminar
+                currentProductId?.let { productId ->
                     homeViewModel.deleteProductById(productId)
-                    // Navegar de nuevo a la pantalla Home
                     findNavController().navigateUp()
                 }
                 dialog.dismiss()
@@ -76,6 +83,18 @@ class DetailProductFragment : Fragment() {
             builder.create().show()
         }
 
+        // 🔸 Nuevo: Botón flotante Editar
+        binding.fabEditProduct.setOnClickListener {
+            currentProductId?.let { productId ->
+                val bundle = Bundle().apply {
+                    putInt("productId", productId.toInt())
+                }
+                findNavController().navigate(
+                    R.id.action_productDetailFragment_to_editProductFragment,
+                    bundle
+                )
+            }
+        }
     }
 
     override fun onDestroyView() {

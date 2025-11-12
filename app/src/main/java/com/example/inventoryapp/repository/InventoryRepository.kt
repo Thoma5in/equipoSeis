@@ -16,4 +16,8 @@ class InventoryRepository(private val productoDao: ProductoDao) {
     suspend fun deleteProductById(id: Long) {
         productoDao.deleteById(id)
     }
+
+    fun getProductById(id: Int): LiveData<Producto?> {
+        return productoDao.getProductById(id)
+    }
 }

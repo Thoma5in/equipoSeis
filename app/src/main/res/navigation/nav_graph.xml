@@ -22,6 +22,18 @@
         <argument
             android:name="productId"
             app:argType="long" />
+        <action
+            android:id="@+id/action_productDetailFragment_to_editProductFragment"
+            app:destination="@id/editProductFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/editProductFragment"
+        android:name="com.example.inventoryapp.view.EditProductFragment"
+        android:label="Editar producto" >
+        <argument
+            android:name="productId"
+            app:argType="long" />
     </fragment>
 
 </navigation>

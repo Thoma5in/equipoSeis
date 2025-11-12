@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.inventoryapp.R
+import androidx.core.content.edit
 // NOTA: Se eliminaron las importaciones de binding, Intent, LoginActivity, y los listeners de las vistas
 //       porque esa lógica ahora está en HomeFragment.kt
 
