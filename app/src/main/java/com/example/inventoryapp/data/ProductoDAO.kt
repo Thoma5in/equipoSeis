@@ -18,4 +18,10 @@ interface ProductoDao {
     // 🔹 Nuevo método para eliminar producto por ID
     @Query("DELETE FROM productos WHERE codigo = :id")
     suspend fun deleteById(id: Long)
+
+    // NUEVO: obtener producto por id
+    @Query("SELECT * FROM productos WHERE codigo = :id LIMIT 1")
+    fun getProductById(id: Int): LiveData<Producto?>
+
+
 }

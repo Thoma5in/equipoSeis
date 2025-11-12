@@ -5,8 +5,11 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Button
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.core.content.ContextCompat
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.inventoryapp.R
 import com.example.inventoryapp.data.AppDatabase
@@ -27,8 +30,13 @@ class AgregarProductoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContentView(R.layout.activity_agregar_producto)
-
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.add_product_layout)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
         // 1. Inicialización de Room y ViewModel
         val dao = AppDatabase.getDatabase(applicationContext).productoDao()
         val repository = InventoryRepository(dao)
