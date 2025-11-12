@@ -39,7 +39,8 @@
     <fragment
         android:id="@+id/editProductFragment"
         android:name="com.example.inventoryapp.view.fragment.EditProductFragment"
-        android:label="Editar producto" >
+        android:label="Editar producto"
+        tools:layout="@layout/fragment_edit_product">
         <argument
             android:name="productId"
             app:argType="integer" />
