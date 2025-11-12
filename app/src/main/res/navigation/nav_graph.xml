@@ -10,9 +10,18 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
+            android:id="@+id/action_homeFragment_to_agregarProductoFragment"
+            app:destination="@id/agregarProductoFragment"/>
+        <action
             android:id="@+id/action_homeFragment_to_detailProductFragment"
             app:destination="@id/detailProductFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/agregarProductoFragment"
+    android:name="com.example.inventoryapp.view.AgregarProductoFragment"
+    android:label="Agregar Producto"
+    tools:layout="@layout/fragment_agregar_producto"/>
+
 
     <fragment
         android:id="@+id/detailProductFragment"

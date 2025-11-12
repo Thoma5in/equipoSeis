@@ -12,7 +12,6 @@
     android:orientation="vertical"
     android:padding="12dp">
 
-    <!-- Fila superior: Logo + título + icono ojo -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
