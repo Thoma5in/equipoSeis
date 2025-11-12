@@ -30,7 +30,7 @@
         <activity android:name=".view.MainActivity" />
 
         <!-- Activity de agregar ítem -->
-        <activity android:name=".view.AgregarProductoActivity"
+        <activity android:name=".view.AgregarProductoFragment"
             android:exported="false"
             />
         <!-- Widget -->

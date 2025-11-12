@@ -11,6 +11,9 @@ import com.example.inventoryapp.R
 import com.example.inventoryapp.databinding.FragmentDetailProductBinding
 import com.example.inventoryapp.viewmodel.HomeViewModel
 import java.util.Locale
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+
 
 class DetailProductFragment : Fragment() {
 
@@ -35,6 +38,8 @@ class DetailProductFragment : Fragment() {
             this,
             ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
         ).get(HomeViewModel::class.java)
+
+
 
         // Flecha atrás (toolbar y botón)
         binding.toolbarDetail.setNavigationOnClickListener {
@@ -74,8 +79,10 @@ class DetailProductFragment : Fragment() {
 
             builder.setPositiveButton("Sí") { dialog, _ ->
                 currentProductId?.let { productId ->
-                    homeViewModel.deleteProductById(productId)
-                    findNavController().navigateUp()
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        homeViewModel.deleteProductById(productId)
+                        findNavController().navigateUp()
+                    }
                 }
                 dialog.dismiss()
             }
@@ -83,7 +90,7 @@ class DetailProductFragment : Fragment() {
             builder.create().show()
         }
 
-        // 🔸 Nuevo: Botón flotante Editar
+        // Botón flotante Editar
         binding.fabEditProduct.setOnClickListener {
             currentProductId?.let { productId ->
                 val bundle = Bundle().apply {

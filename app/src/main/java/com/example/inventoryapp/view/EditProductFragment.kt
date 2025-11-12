@@ -14,6 +14,9 @@ import androidx.navigation.fragment.findNavController
 import com.example.inventoryapp.databinding.FragmentEditProductBinding
 import com.example.inventoryapp.model.Producto
 import com.example.inventoryapp.viewmodel.EditProductViewModel
+import androidx.core.content.ContextCompat
+import com.example.inventoryapp.R
+import java.text.DecimalFormat
 
 class EditProductFragment : Fragment() {
 
@@ -38,6 +41,10 @@ class EditProductFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // Formateador para precios sin decimales
+        val priceFormatter = DecimalFormat("#")
+        priceFormatter.maximumFractionDigits = 0
+        priceFormatter.isGroupingUsed = false
 
         // Recuperar ID del producto desde el Bundle (sin SafeArgs)
         productId = arguments?.getInt("productId") ?: -1
@@ -58,7 +65,8 @@ class EditProductFragment : Fragment() {
                 currentProduct = it
                 binding.tvProductId.text = it.codigo.toString()
                 binding.etName.setText(it.nombre)
-                binding.etPrice.setText(it.precio.toString())
+                val formattedPrice = priceFormatter.format(it.precio)
+                binding.etPrice.setText(formattedPrice)
                 binding.etQuantity.setText(it.cantidad.toString())
                 validateFields()
             }
@@ -117,8 +125,17 @@ class EditProductFragment : Fragment() {
 
         val priceValid = priceText.isNotEmpty() && priceText.toDoubleOrNull() != null
         val qtyValid = quantityText.isNotEmpty() && quantityText.toIntOrNull() != null
+        val state = name.isNotBlank() && priceValid && qtyValid
 
-        binding.btnEdit.isEnabled = name.isNotBlank() && priceValid && qtyValid
+        binding.btnEdit.isEnabled = state
+
+        val colorId = if (state) {
+            android.R.color.white// estado activo
+        } else {
+            R.color.gray //estado inactivo
+        }
+        val color = ContextCompat.getColor(requireContext(), colorId)
+        binding.btnEdit.setTextColor(color)
     }
 
     override fun onDestroyView() {
