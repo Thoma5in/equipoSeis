@@ -1,5 +1,7 @@
-package com.example.inventoryapp.view
+package com.example.inventoryapp.view.fragment
 
+import android.R
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -7,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -14,8 +17,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.inventoryapp.databinding.FragmentEditProductBinding
 import com.example.inventoryapp.model.Producto
 import com.example.inventoryapp.viewmodel.EditProductViewModel
-import androidx.core.content.ContextCompat
-import com.example.inventoryapp.R
 import java.text.DecimalFormat
 
 class EditProductFragment : Fragment() {
@@ -111,6 +112,10 @@ class EditProductFragment : Fragment() {
             // Guarda (insert con REPLACE hace upsert)
             viewModel.updateProduct(updated)
 
+            val updateIntent = Intent("com.example.inventoryapp.ACTION_UPDATE_WIDGET")
+            updateIntent.setPackage(requireContext().packageName)
+            requireContext().sendBroadcast(updateIntent)
+
             Toast.makeText(requireContext(), "Producto actualizado correctamente", Toast.LENGTH_SHORT).show()
 
             // Regresa a la ventana anterior (detalle)
@@ -130,9 +135,9 @@ class EditProductFragment : Fragment() {
         binding.btnEdit.isEnabled = state
 
         val colorId = if (state) {
-            android.R.color.white// estado activo
+            R.color.white// estado activo
         } else {
-            R.color.gray //estado inactivo
+            com.example.inventoryapp.R.color.gray //estado inactivo
         }
         val color = ContextCompat.getColor(requireContext(), colorId)
         binding.btnEdit.setTextColor(color)

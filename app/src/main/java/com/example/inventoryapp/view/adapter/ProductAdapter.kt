@@ -1,4 +1,4 @@
-package com.example.inventoryapp.view
+package com.example.inventoryapp.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.inventoryapp.databinding.ItemProductoBinding
-import com.example.inventoryapp.model.Producto // ¡Importación correcta!
-import java.util.Locale // Necesario para el formato de moneda
+import com.example.inventoryapp.model.Producto
+import java.util.Locale
 
 class ProductAdapter(private val onItemClicked: (Producto) -> Unit) : ListAdapter<Producto, ProductAdapter.ProductViewHolder>(ProductDiffCallback()) {
 
@@ -20,7 +20,7 @@ class ProductAdapter(private val onItemClicked: (Producto) -> Unit) : ListAdapte
             binding.tvIdProducto.text = "Id: ${producto.codigo} | Cantidad: ${producto.cantidad}"
 
             // Formato de precio con separador de miles
-            val formattedPrice = String.format(Locale.getDefault(), "$ %,.2f", producto.precio)
+            val formattedPrice = String.Companion.format(Locale.getDefault(), "$ %,.2f", producto.precio)
             binding.tvPrecioProducto.text = formattedPrice
         }
 

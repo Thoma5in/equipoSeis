@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.inventoryapp.R
 import com.example.inventoryapp.databinding.FragmentHomeBinding
 import com.example.inventoryapp.view.LoginActivity
-import com.example.inventoryapp.view.ProductAdapter
+import com.example.inventoryapp.view.adapter.ProductAdapter
 import com.example.inventoryapp.viewmodel.HomeViewModel
 
 

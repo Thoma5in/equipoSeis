@@ -1,20 +1,20 @@
-package com.example.inventoryapp.view
+package com.example.inventoryapp.view.fragment
 
+import android.R
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment // ⭐ CAMBIO 1: Heredar de Fragment
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController // ⭐ Importación para navegación
-import com.example.inventoryapp.R
+import androidx.navigation.fragment.findNavController
 import com.example.inventoryapp.data.AppDatabase
-import com.example.inventoryapp.databinding.FragmentAgregarProductoBinding // ⭐ Importación de Binding
+import com.example.inventoryapp.databinding.FragmentAgregarProductoBinding
 import com.example.inventoryapp.repository.InventoryRepository
 import com.example.inventoryapp.viewmodel.AgregarProducto
 import com.example.inventoryapp.viewmodel.InventoryFactory
@@ -39,7 +39,7 @@ class AgregarProductoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Inicialización de Room y ViewModel
-        val dao = AppDatabase.getDatabase(requireContext()).productoDao()
+        val dao = AppDatabase.Companion.getDatabase(requireContext()).productoDao()
         val repository = InventoryRepository(dao)
         val factory = InventoryFactory(repository)
 
@@ -79,9 +79,9 @@ class AgregarProductoFragment : Fragment() {
                 binding.btnGuardarProducto.isEnabled = estaHabilitado
 
                 val colorId = if (estaHabilitado) {
-                    android.R.color.white
+                    R.color.white
                 } else {
-                    R.color.gray
+                    com.example.inventoryapp.R.color.gray
                 }
 
                 val color = ContextCompat.getColor(requireContext(), colorId)
@@ -109,6 +109,9 @@ class AgregarProductoFragment : Fragment() {
 
         if (codigo != null && precio != null && cantidad != null) {
             viewModel.guardarNuevoProducto(codigo, nombre, precio, cantidad)
+            val updateIntent = Intent("com.example.inventoryapp.ACTION_UPDATE_WIDGET")
+            updateIntent.setPackage(requireContext().packageName)
+            requireContext().sendBroadcast(updateIntent)
 
             Toast.makeText(requireContext(), "Producto guardado con éxito!", Toast.LENGTH_SHORT).show()
 
