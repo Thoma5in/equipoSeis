@@ -52,18 +52,24 @@ class HomeFragment : Fragment() {
             adapter = productAdapter
         }
 
-        // Mostrar loader antes de cargar los datos
-        binding.progressCircular.visibility = View.VISIBLE
-
-        homeViewModel.allProducts.observe(viewLifecycleOwner, Observer { Productos ->
-            binding.progressCircular.visibility = View.GONE
-            productAdapter.submitList(emptyList())
-            if (Productos.isNullOrEmpty()) {
-                    // Opcional: mostrar mensaje o vista vacía
+        // ⭐ LÓGICA DE VISIBILIDAD: CONTROLADA POR EL ESTADO DE CARGA
+        homeViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading) {
+                // Muestra el Progress Bar y oculta la lista
+                binding.progressCircular.visibility = View.VISIBLE
+                binding.recyclerViewProductos.visibility = View.GONE
             } else {
-                productAdapter.submitList(Productos.toList())
+                // Oculta el Progress Bar y muestra la lista (después de 3 segundos)
+                binding.progressCircular.visibility = View.GONE
+                binding.recyclerViewProductos.visibility = View.VISIBLE
             }
-            })
+        }
+
+        // OBSERVAMOS allProducts SOLO PARA CARGAR LOS DATOS
+        homeViewModel.allProducts.observe(viewLifecycleOwner, Observer { Productos ->
+            // La visibilidad ya NO se controla aquí
+            productAdapter.submitList(Productos.toList())
+        })
 
         binding.imageButton.setOnClickListener { logout() }
 
