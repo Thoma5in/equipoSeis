@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black_semi_transparent"
-    tools:context=".view.AgregarProductoActivity"
+    tools:context=".view.fragment.AgregarProductoFragment"
     android:id="@+id/add_product_layout">
 
     <com.google.android.material.appbar.MaterialToolbar

@@ -12,12 +12,15 @@ class InventoryRepository(private val productoDao: ProductoDao) {
         productoDao.insert(producto)
     }
 
-    // 🔹 Nuevo método para eliminar producto por ID
+    // metodo para eliminar producto por ID
     suspend fun deleteProductById(id: Long) {
         productoDao.deleteById(id)
     }
 
     fun getProductById(id: Int): LiveData<Producto?> {
         return productoDao.getProductById(id)
+    }
+    suspend fun getInventoryTotalValue(): Double? {
+        return productoDao.getInventoryTotalValue()
     }
 }

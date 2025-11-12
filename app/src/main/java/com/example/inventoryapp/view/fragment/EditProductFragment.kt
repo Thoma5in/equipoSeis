@@ -1,5 +1,7 @@
-package com.example.inventoryapp.view
+package com.example.inventoryapp.view.fragment
 
+import android.R
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -7,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -14,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.inventoryapp.databinding.FragmentEditProductBinding
 import com.example.inventoryapp.model.Producto
 import com.example.inventoryapp.viewmodel.EditProductViewModel
+import java.text.DecimalFormat
 
 class EditProductFragment : Fragment() {
 
@@ -38,6 +42,10 @@ class EditProductFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // Formateador para precios sin decimales
+        val priceFormatter = DecimalFormat("#")
+        priceFormatter.maximumFractionDigits = 0
+        priceFormatter.isGroupingUsed = false
 
         // Recuperar ID del producto desde el Bundle (sin SafeArgs)
         productId = arguments?.getInt("productId") ?: -1
@@ -58,7 +66,8 @@ class EditProductFragment : Fragment() {
                 currentProduct = it
                 binding.tvProductId.text = it.codigo.toString()
                 binding.etName.setText(it.nombre)
-                binding.etPrice.setText(it.precio.toString())
+                val formattedPrice = priceFormatter.format(it.precio)
+                binding.etPrice.setText(formattedPrice)
                 binding.etQuantity.setText(it.cantidad.toString())
                 validateFields()
             }
@@ -103,6 +112,10 @@ class EditProductFragment : Fragment() {
             // Guarda (insert con REPLACE hace upsert)
             viewModel.updateProduct(updated)
 
+            val updateIntent = Intent("com.example.inventoryapp.ACTION_UPDATE_WIDGET")
+            updateIntent.setPackage(requireContext().packageName)
+            requireContext().sendBroadcast(updateIntent)
+
             Toast.makeText(requireContext(), "Producto actualizado correctamente", Toast.LENGTH_SHORT).show()
 
             // Regresa a la ventana anterior (detalle)
@@ -117,8 +130,17 @@ class EditProductFragment : Fragment() {
 
         val priceValid = priceText.isNotEmpty() && priceText.toDoubleOrNull() != null
         val qtyValid = quantityText.isNotEmpty() && quantityText.toIntOrNull() != null
+        val state = name.isNotBlank() && priceValid && qtyValid
 
-        binding.btnEdit.isEnabled = name.isNotBlank() && priceValid && qtyValid
+        binding.btnEdit.isEnabled = state
+
+        val colorId = if (state) {
+            R.color.white// estado activo
+        } else {
+            com.example.inventoryapp.R.color.gray //estado inactivo
+        }
+        val color = ContextCompat.getColor(requireContext(), colorId)
+        binding.btnEdit.setTextColor(color)
     }
 
     override fun onDestroyView() {
