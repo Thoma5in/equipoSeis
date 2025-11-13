@@ -109,6 +109,9 @@ class AgregarProductoFragment : Fragment() {
 
         if (codigo != null && precio != null && cantidad != null) {
             viewModel.guardarNuevoProducto(codigo, nombre, precio, cantidad)
+            val updateIntent = android.content.Intent("com.example.inventoryapp.ACTION_UPDATE_WIDGET")
+            updateIntent.setPackage(requireContext().packageName)
+            requireContext().sendBroadcast(updateIntent)
 
             Toast.makeText(requireContext(), "Producto guardado con éxito!", Toast.LENGTH_SHORT).show()
 

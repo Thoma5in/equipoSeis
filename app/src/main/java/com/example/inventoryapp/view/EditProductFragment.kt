@@ -111,6 +111,10 @@ class EditProductFragment : Fragment() {
             // Guarda (insert con REPLACE hace upsert)
             viewModel.updateProduct(updated)
 
+            val updateIntent = android.content.Intent("com.example.inventoryapp.ACTION_UPDATE_WIDGET")
+            updateIntent.setPackage(requireContext().packageName)
+            requireContext().sendBroadcast(updateIntent)
+
             Toast.makeText(requireContext(), "Producto actualizado correctamente", Toast.LENGTH_SHORT).show()
 
             // Regresa a la ventana anterior (detalle)

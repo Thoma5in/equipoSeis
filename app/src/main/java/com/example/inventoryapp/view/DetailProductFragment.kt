@@ -13,6 +13,7 @@ import com.example.inventoryapp.viewmodel.HomeViewModel
 import java.util.Locale
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
+import android.content.Intent
 
 
 class DetailProductFragment : Fragment() {
@@ -81,6 +82,10 @@ class DetailProductFragment : Fragment() {
                 currentProductId?.let { productId ->
                     viewLifecycleOwner.lifecycleScope.launch {
                         homeViewModel.deleteProductById(productId)
+                        val updateIntent = Intent("com.example.inventoryapp.ACTION_UPDATE_WIDGET")
+                        updateIntent.setPackage(requireContext().packageName)
+                        requireContext().sendBroadcast(updateIntent)
+
                         findNavController().navigateUp()
                     }
                 }

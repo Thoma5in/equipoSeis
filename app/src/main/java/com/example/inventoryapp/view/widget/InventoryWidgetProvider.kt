@@ -8,7 +8,17 @@ import android.content.Intent
 import android.widget.RemoteViews
 import com.example.inventoryapp.R
 import android.content.ComponentName
+import com.example.inventoryapp.data.AppDatabase
 import com.example.inventoryapp.view.MainActivity
+import com.example.inventoryapp.repository.InventoryRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.util.Locale
+import android.os.Handler
+import android.os.Looper
+
+private val widgetScope = CoroutineScope(Dispatchers.IO)
 
 class InventoryWidgetProvider : AppWidgetProvider() {
 
@@ -20,9 +30,27 @@ class InventoryWidgetProvider : AppWidgetProvider() {
 
     private fun updateAppWidget(context: Context, manager: AppWidgetManager, appWidgetId: Int) {
         val prefs = context.getSharedPreferences("widget_prefs", Context.MODE_PRIVATE)
+
+        val productDao = AppDatabase.getDatabase(context).productoDao()
+        val repository = InventoryRepository(productDao)
+
+
+        widgetScope.launch {
+
+            val totalValue = repository.getInventoryTotalValue() ?: 0.0
+
+            val formattedTotal = String.format(Locale.getDefault(), "%,.2f", totalValue)
+            prefs.edit().putString("saldo_actual", formattedTotal).apply()
+
+
+            updateWidgetUI(context, manager, appWidgetId, prefs)
+        }
+    }
+
+    private fun updateWidgetUI(context: Context, manager: AppWidgetManager, appWidgetId: Int, prefs: android.content.SharedPreferences) {
+
         val saldoVisible = prefs.getBoolean("saldo_visible", false)
         val saldoActual = prefs.getString("saldo_actual", "0") ?: "0"
-
         val views = RemoteViews(context.packageName, R.layout.widget_inventory)
 
         // Mostrar/ocultar saldo
@@ -49,9 +77,15 @@ class InventoryWidgetProvider : AppWidgetProvider() {
             context, 0, openIntent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
-        views.setOnClickPendingIntent(R.id.widget_manage_icon, openPendingIntent)
 
-        manager.updateAppWidget(appWidgetId, views)
+        val manageAreaId = context.resources.getIdentifier("widget_manage_area", "id", context.packageName)
+        val manageTargetId = if (manageAreaId != 0) manageAreaId else R.id.widget_manage_icon
+        views.setOnClickPendingIntent(manageTargetId, openPendingIntent)
+
+
+        Handler(Looper.getMainLooper()).post {
+            manager.updateAppWidget(appWidgetId, views)
+        }
     }
 
     override fun onReceive(context: Context, intent: Intent) {
@@ -64,6 +98,12 @@ class InventoryWidgetProvider : AppWidgetProvider() {
             "TOGGLE_SALDO" -> {
                 val visible = prefs.getBoolean("saldo_visible", false)
                 prefs.edit().putBoolean("saldo_visible", !visible).apply()
+                // Llama a onUpdate para redibujar el widget con el saldo visible/oculto
+                onUpdate(context, manager, ids)
+            }
+
+            // Acción para forzar la actualización desde la app (Agregar, Editar, Eliminar)
+            "com.example.inventoryapp.ACTION_UPDATE_WIDGET" -> {
                 onUpdate(context, manager, ids)
             }
         }
