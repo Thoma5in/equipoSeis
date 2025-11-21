@@ -1,5 +1,6 @@
 plugins {
     id("com.android.application")
+    id("com.google.gms.google-services")
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
 }
@@ -50,6 +51,7 @@ android {
 }
 
 dependencies {
+
 
     val navVersion = "2.3.5"
     implementation("androidx.core:core-ktx:1.9.0")
@@ -108,6 +110,27 @@ dependencies {
 
     //la autenticacion biometrica :)
     implementation ("androidx.biometric:biometric:1.1.0")
+
+    //FuegoBase BoM
+    implementation(platform("com.google.firebase:firebase-bom:34.6.0"))
+    implementation("com.google.firebase:firebase-firestore")
+
+    //authentication
+    implementation("com.google.firebase:firebase-auth-ktx:23.2.1")
+
+    // TODO: Add the dependencies for Firebase products you want to use
+    // When using the BoM, don't specify versions in Firebase dependencies
+    // https://firebase.google.com/docs/android/setup#available-libraries
+
+
+
+
+    implementation("com.google.dagger:hilt-android:2.48")
+
+
+
+
+
 
     
 }
