@@ -2,11 +2,14 @@ package com.example.inventoryapp.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import com.example.inventoryapp.databinding.ActivityLoginBinding
 import androidx.core.content.edit
+import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : AppCompatActivity() {
 
@@ -33,6 +36,16 @@ class LoginActivity : AppCompatActivity() {
         binding.fingerprintAnimation.setOnClickListener {
             showBiometricPrompt()
         }
+
+        FirebaseAuth.getInstance().signInAnonymously()
+            .addOnSuccessListener {
+                Log.d("FIREBASE_TEST", "Firebase conectado correctamente")
+                Toast.makeText(this, "Firebase OK!", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener {
+                Log.e("FIREBASE_TEST", "Error de conexión: ${it.message}")
+                Toast.makeText(this, "Error Firebase", Toast.LENGTH_SHORT).show()
+            }
     }
 
 
