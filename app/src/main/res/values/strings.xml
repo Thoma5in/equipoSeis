@@ -32,5 +32,6 @@
     <string name="precio">Precio</string>
     <string name="cantidad">Cantidad</string>
     <string name="editar">Editar</string>
+    <string name="email_input">Email</string>
 
 </resources>
