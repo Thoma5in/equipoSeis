@@ -18,6 +18,7 @@
             android:id="@+id/imgLogin"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:layout_marginTop="50dp"
             android:contentDescription="@null"
             android:src="@drawable/ic_logo_widget"
             app:layout_constraintEnd_toEndOf="parent"

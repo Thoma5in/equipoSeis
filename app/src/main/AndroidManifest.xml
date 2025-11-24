@@ -16,9 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.InventoryApp">
 
-        <!-- Activity de Login -->
+        <!-- Activity de Signin -->
         <activity
-            android:name=".view.LoginActivity"
+            android:name=".view.SigninActivity"
             android:exported="true">
             <!-- Esta es la PRIMERA pantalla -->
             <intent-filter>
@@ -26,6 +26,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".view.LoginActivity" />
 
         <!-- Activity principal (después del login) -->
         <activity android:name=".view.MainActivity" />
@@ -49,6 +51,5 @@
         </receiver>
 
     </application>
-
 
 </manifest>
