@@ -49,13 +49,39 @@
                     android:inputType="textEmailAddress"
                     android:padding="10dp"
                     android:textColor="@color/white"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/passwordInputLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="@string/password"
+                android:textColorHint="@color/white"
+
+
+                app:errorTextColor="@color/red"
+                app:endIconDrawable="@drawable/ic_eye_open"
+                app:endIconTint="@color/white"
+                app:endIconMode="custom"
+                app:errorEnabled="true">
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPassword"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:maxLength="10"
+                    android:inputType="numberPassword"
+                    android:padding="10dp"
+                    android:textColor="@color/white"
+                    android:digits="0123456789"
+                    app:boxStrokeColor="@color/white"
+                    app:boxStrokeWidth="2dp"
+                    />
             </com.google.android.material.textfield.TextInputLayout>
 
-
-
         </LinearLayout>
-
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
