@@ -20,15 +20,16 @@ class SigninActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupPasswordField()
-        setupButtonState()   // Activa/desactiva el botón Login
+        setupButtonState()   // Activa/desactiva Login y cambia color de Registrarse
     }
 
-    // ACTIVAR O DESACTIVAR BOTÓN LOGIN
+    // Observa email y password para Login y Registrarse
     private fun setupButtonState() {
 
         val watcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                validateButton()
+                validateLoginButton()
+                validateRegisterText()
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
@@ -38,7 +39,8 @@ class SigninActivity : AppCompatActivity() {
         binding.etPassword.addTextChangedListener(watcher)
     }
 
-    private fun validateButton() {
+    // SOLO controla el botón LOGIN
+    private fun validateLoginButton() {
         val emailFilled = binding.etEmail.text?.isNotEmpty() == true
         val passwordFilled = binding.etPassword.text?.isNotEmpty() == true
 
@@ -48,7 +50,23 @@ class SigninActivity : AppCompatActivity() {
         binding.btnLogin.alpha = if (isEnabled) 1f else 0.5f
     }
 
-    // VALIDACIÓN Y VISIBILIDAD DE CONTRASEÑA
+    // SOLO controla el TextView REGISTRARSE
+    private fun validateRegisterText() {
+        val emailFilled = binding.etEmail.text?.isNotEmpty() == true
+        val passwordFilled = binding.etPassword.text?.isNotEmpty() == true
+
+        // Cuando ambos campos tienen texto, se vuelve blanco
+        if (emailFilled && passwordFilled) {
+            binding.tvRegister.setTextColor(ContextCompat.getColor(this, R.color.white))
+            binding.tvRegister.alpha = 1f
+        } else {
+            // Cuando falta información vuelve a gris (#9EA1A1)
+            binding.tvRegister.setTextColor(ContextCompat.getColor(this, R.color.gray_register))
+            binding.tvRegister.alpha = 0.5f
+        }
+    }
+
+    // Se mantiene igual
     private fun setupPasswordField() {
         binding.etPassword.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
