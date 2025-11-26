@@ -8,5 +8,6 @@
     <color name="gray_toolbar">#424242</color>
     <color name="gray">#A9A9A9</color>
     <color name="red">#FF2C2C</color>
+    <color name="gray_register">#9EA1A1</color>
 
 </resources>
