@@ -20,10 +20,36 @@ class SigninActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupPasswordField()
+        setupButtonState()   // Activa/desactiva el botón Login
     }
 
+    // ACTIVAR O DESACTIVAR BOTÓN LOGIN
+    private fun setupButtonState() {
+
+        val watcher = object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                validateButton()
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        }
+
+        binding.etEmail.addTextChangedListener(watcher)
+        binding.etPassword.addTextChangedListener(watcher)
+    }
+
+    private fun validateButton() {
+        val emailFilled = binding.etEmail.text?.isNotEmpty() == true
+        val passwordFilled = binding.etPassword.text?.isNotEmpty() == true
+
+        val isEnabled = emailFilled && passwordFilled
+
+        binding.btnLogin.isEnabled = isEnabled
+        binding.btnLogin.alpha = if (isEnabled) 1f else 0.5f
+    }
+
+    // VALIDACIÓN Y VISIBILIDAD DE CONTRASEÑA
     private fun setupPasswordField() {
-        // Validación en tiempo real (Criterio 5)
         binding.etPassword.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 validatePassword(s.toString())
@@ -32,7 +58,6 @@ class SigninActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
 
-        // Toggle visibilidad de contraseña (Criterio 6)
         binding.passwordInputLayout.setEndIconOnClickListener {
             togglePasswordVisibility()
         }
@@ -52,16 +77,16 @@ class SigninActivity : AppCompatActivity() {
         isPasswordVisible = !isPasswordVisible
 
         if (isPasswordVisible) {
-            // Mostrar contraseña
             binding.etPassword.inputType = InputType.TYPE_CLASS_NUMBER
-            binding.passwordInputLayout.endIconDrawable = ContextCompat.getDrawable(this, R.drawable.ic_eye_closed)
+            binding.passwordInputLayout.endIconDrawable =
+                ContextCompat.getDrawable(this, R.drawable.ic_eye_closed)
         } else {
-            // Ocultar contraseña
-            binding.etPassword.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD
-            binding.passwordInputLayout.endIconDrawable = ContextCompat.getDrawable(this, R.drawable.ic_eye_open)
+            binding.etPassword.inputType =
+                InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD
+            binding.passwordInputLayout.endIconDrawable =
+                ContextCompat.getDrawable(this, R.drawable.ic_eye_open)
         }
 
-        // Mover cursor al final
         binding.etPassword.setSelection(binding.etPassword.text?.length ?: 0)
     }
 }
