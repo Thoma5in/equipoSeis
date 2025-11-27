@@ -1,15 +1,29 @@
 package com.example.inventoryapp.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.inventoryapp.R
 import com.example.inventoryapp.databinding.ActivitySigninBinding
+import com.example.inventoryapp.viewmodel.LoginViewModel
 
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import androidx.lifecycle.Lifecycle
+
+@AndroidEntryPoint
 class SigninActivity : AppCompatActivity() {
+
+    private val loginViewModel: LoginViewModel by viewModels()
 
     private lateinit var binding: ActivitySigninBinding
     private var isPasswordVisible = false
@@ -21,6 +35,35 @@ class SigninActivity : AppCompatActivity() {
 
         setupPasswordField()
         setupButtonState()   // Activa/desactiva Login y cambia color de Registrarse
+
+        // ESCUCHAR EVENTOS DEL VIEWMODEL
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                loginViewModel.loginEvents.collectLatest { event ->
+                    when (event) {
+
+                        is LoginViewModel.LoginEvent.Success -> {
+                            Toast.makeText(this@SigninActivity, "Login exitoso", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(this@SigninActivity, MainActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+
+                        is LoginViewModel.LoginEvent.Error -> {
+                            Toast.makeText(this@SigninActivity, event.message, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
+        }
+
+        //  LISTENER DEL BOTÓN LOGIN
+        binding.btnLogin.setOnClickListener {
+            val email = binding.etEmail.text.toString().trim()
+            val password = binding.etPassword.text.toString().trim()
+
+            loginViewModel.login(email, password)
+        }
     }
 
     // Observa email y password para Login y Registrarse
@@ -66,7 +109,7 @@ class SigninActivity : AppCompatActivity() {
         }
     }
 
-    // Se mantiene igual
+    // Se mantiene igual            a bueno gracias amigo no sabía
     private fun setupPasswordField() {
         binding.etPassword.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {

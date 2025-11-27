@@ -3,6 +3,10 @@ plugins {
     id("com.google.gms.google-services")
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
+    // HILT (versión KTS correcta)
+    id("com.google.dagger.hilt.android")
+    kotlin("kapt")
+
 }
 
 android {
@@ -92,9 +96,9 @@ dependencies {
     implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
 
     // Room
-    implementation ("androidx.room:room-runtime:2.5.2")
-    implementation ("androidx.room:room-ktx:2.5.2")
-    ksp("androidx.room:room-compiler:2.5.2")
+    implementation ("androidx.room:room-runtime:2.6.1")
+    implementation ("androidx.room:room-ktx:2.6.1")
+    ksp("androidx.room:room-compiler:2.6.1")
     implementation ("com.getbase:floatingactionbutton:1.10.1")
 
 
@@ -125,7 +129,9 @@ dependencies {
 
 
 
-    implementation("com.google.dagger:hilt-android:2.48")
+    implementation("com.google.dagger:hilt-android:2.51.1")
+
+    kapt("com.google.dagger:hilt-compiler:2.51.1")
 
 
 
