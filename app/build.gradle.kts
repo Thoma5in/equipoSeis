@@ -2,11 +2,9 @@ plugins {
     id("com.android.application")
     id("com.google.gms.google-services")
     id("org.jetbrains.kotlin.android")
-    id("com.google.devtools.ksp")
-    // HILT (versión KTS correcta)
+    id("com.google.devtools.ksp") // CAMBIO AQUÍ: ksp es el ÚNICO procesador de anotaciones que necesitas
     id("com.google.dagger.hilt.android")
-    kotlin("kapt")
-
+    // kotlin("kapt") // CAMBIO AQUÍ: Se elimina esta línea para evitar el conflicto
 }
 
 android {
@@ -22,6 +20,8 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
+        // CAMBIO AQUÍ: Esta configuración es para kapt, no para ksp. Se debe mover.
+        /*
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments += mapOf(
@@ -29,6 +29,7 @@ android {
                 )
             }
         }
+        */
     }
 
     buildTypes {
@@ -54,9 +55,13 @@ android {
     }
 }
 
+// CAMBIO AQUÍ: La configuración de ksp para Room se define aquí
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+}
+
+
 dependencies {
-
-
     val navVersion = "2.3.5"
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -67,16 +72,16 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.mockito:mockito-core:3.12.4")
     testImplementation("org.mockito:mockito-inline:3.12.4")
-    testImplementation ("org.mockito:mockito-android:3.11.2")
-    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
-    testImplementation ("androidx.arch.core:core-testing:2.2.0")
-    debugImplementation ("org.jacoco:org.jacoco.core:0.8.7")
+    testImplementation("org.mockito:mockito-android:3.11.2")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+    debugImplementation("org.jacoco:org.jacoco.core:0.8.7")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     //navigation
-    implementation ("androidx.navigation:navigation-fragment-ktx:2.7.5")
-    implementation ("androidx.navigation:navigation-ui-ktx:2.7.5")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.5")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.5")
     implementation("androidx.navigation:navigation-common:2.7.5")
 
     //cardView
@@ -88,32 +93,31 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
     //viewmodel
-    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
-    implementation ("androidx.activity:activity-ktx:1.8.0")
-    implementation ("androidx.fragment:fragment-ktx:1.6.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+    implementation("androidx.activity:activity-ktx:1.8.0")
+    implementation("androidx.fragment:fragment-ktx:1.6.2")
 
     // LiveData
-    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
 
-    // Room
-    implementation ("androidx.room:room-runtime:2.6.1")
-    implementation ("androidx.room:room-ktx:2.6.1")
+    // Room (ya estaba correcto usando ksp)
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
     ksp("androidx.room:room-compiler:2.6.1")
-    implementation ("com.getbase:floatingactionbutton:1.10.1")
-
+    implementation("com.getbase:floatingactionbutton:1.10.1")
 
     //Retrofit
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
     //Glide
-    implementation ("com.github.bumptech.glide:glide:4.12.0")
+    implementation("com.github.bumptech.glide:glide:4.12.0")
 
     //pa las animations
-    implementation ("com.airbnb.android:lottie:6.7.1")
+    implementation("com.airbnb.android:lottie:6.7.1")
 
     //la autenticacion biometrica :)
-    implementation ("androidx.biometric:biometric:1.1.0")
+    implementation("androidx.biometric:biometric:1.1.0")
 
     //FuegoBase BoM
     implementation(platform("com.google.firebase:firebase-bom:34.6.0"))
@@ -122,21 +126,8 @@ dependencies {
     //authentication
     implementation("com.google.firebase:firebase-auth-ktx:23.2.1")
 
-    // TODO: Add the dependencies for Firebase products you want to use
-    // When using the BoM, don't specify versions in Firebase dependencies
-    // https://firebase.google.com/docs/android/setup#available-libraries
-
-
-
-
+    // Hilt / Dagger
     implementation("com.google.dagger:hilt-android:2.51.1")
-
-    kapt("com.google.dagger:hilt-compiler:2.51.1")
-
-
-
-
-
-
-    
+    // CAMBIO AQUÍ: Se reemplaza kapt por ksp para el compilador de Hilt
+    ksp("com.google.dagger:hilt-compiler:2.51.1")
 }

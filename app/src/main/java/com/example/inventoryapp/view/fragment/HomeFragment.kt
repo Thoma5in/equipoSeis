@@ -16,12 +16,14 @@ import com.example.inventoryapp.databinding.FragmentHomeBinding
 import com.example.inventoryapp.view.LoginActivity
 import com.example.inventoryapp.view.adapter.ProductAdapter
 import com.example.inventoryapp.viewmodel.HomeViewModel
+import com.google.firebase.auth.FirebaseAuth
 
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+    private lateinit var firebaseAuth: FirebaseAuth
 
     private lateinit var homeViewModel: HomeViewModel
     private val productAdapter = ProductAdapter { product ->
@@ -41,6 +43,8 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        firebaseAuth = FirebaseAuth.getInstance()
+
 
         homeViewModel = ViewModelProvider(
             this,
@@ -78,6 +82,7 @@ class HomeFragment : Fragment() {
         }
     }
     private fun logout() {
+        firebaseAuth.signOut()
         val prefs = requireActivity().getSharedPreferences("user_session", 0)
         prefs.edit {
             clear()

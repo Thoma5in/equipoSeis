@@ -1,17 +1,12 @@
 package com.example.inventoryapp.repository
 
-
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-
-
 class AuthRepository @Inject constructor(
     private val auth: FirebaseAuth
 ) {
-
-
 
     // LOGIN
     suspend fun login(email: String, password: String): Boolean {
@@ -42,5 +37,4 @@ class AuthRepository @Inject constructor(
     fun logout() {
         auth.signOut()
     }
-
 }

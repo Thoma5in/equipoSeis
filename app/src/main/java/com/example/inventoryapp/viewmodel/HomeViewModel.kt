@@ -33,7 +33,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         // Ejecución asíncrona: Mueve la observación dentro del launch después del delay
         viewModelScope.launch {
 
-            delay(2000) // Simulación: Espera 3 segundos
+            delay(2000) // Simulación: Espera 2 segundos
 
             // Observador para actualizar el estado de la lista después de que el delay termine
             allProducts.observeForever(object : androidx.lifecycle.Observer<List<Producto>> {

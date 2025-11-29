@@ -18,7 +18,7 @@
 
         <!-- Activity de Signin -->
         <activity
-            android:name=".view.SigninActivity"
+            android:name=".view.LoginActivity"
             android:exported="true">
             <!-- Esta es la PRIMERA pantalla -->
             <intent-filter>
@@ -27,15 +27,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".view.LoginActivity" />
-
         <!-- Activity principal (después del login) -->
         <activity android:name=".view.MainActivity" />
 
-        <!-- Activity de agregar ítem -->
-        <activity android:name=".view.fragment.AgregarProductoFragment"
-            android:exported="false"
-            />
         <!-- Widget -->
         <receiver
             android:name=".view.widget.InventoryWidgetProvider"
