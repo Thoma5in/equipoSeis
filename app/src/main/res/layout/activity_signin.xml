@@ -12,114 +12,122 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".view.LoginActivity"
-        android:background="@color/black">
+        android:background="@color/black"
+        android:padding="24dp">
 
+        <!--IMAGEN LOGO-->
         <ImageView
             android:id="@+id/imgLogin"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginTop="50dp"
             android:contentDescription="@null"
-            android:src="@drawable/ic_logo_widget"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="@+id/inputContainer"
-            tools:layout_editor_absoluteY="150dp"/>
+        android:src="@drawable/ic_logo_widget"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+        <!-- Título -->
+        <TextView
+            android:id="@+id/loginTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_title"
+            android:textColor="@color/orange"
+            android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/imgLogin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp" />
 
         <LinearLayout
             android:id="@+id/inputContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imgLogin"
-            android:orientation="vertical">
+            app:layout_constraintTop_toBottomOf="@id/loginTitle"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
 
-
-
+            <!-- Input Email -->
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="wrap_content"
+                android:layout_width="280dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/email_input"
-                android:textColorHint="@color/white">
+                android:textColorHint="@color/white"
+                app:boxStrokeColor="@color/white"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etEmail"
-                    android:layout_width="250dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="40"
                     android:inputType="textEmailAddress"
-                    android:padding="10dp"
                     android:textColor="@color/white"/>
-                </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Input Contraseña -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/passwordInputLayout"
-                android:layout_width="wrap_content"
+                android:layout_width="280dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:hint="@string/password"
                 android:textColorHint="@color/white"
-
-
+                app:boxStrokeColor="@color/white"
                 app:errorTextColor="@color/red"
-                app:endIconDrawable="@drawable/ic_eye_open"
+                app:errorEnabled="true"
+                app:endIconMode="password_toggle"
                 app:endIconTint="@color/white"
-                app:endIconMode="custom"
-                app:errorEnabled="true">
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="10"
+                android:inputType="textPassword"
+                android:textColor="@color/white"
+                android:digits="0123456789"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Botón Login -->
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/orange"
+            android:enabled="false"
+            android:alpha="1.0"
+            android:layout_marginTop="24dp"/>
+
+        <!-- Botón Registrarse -->
+            <TextView
+                android:id="@+id/tvRegisterLink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Registrarse"
+                android:textColor="@color/gray_register"
+                android:textSize="16sp"
+                android:padding="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:enabled="false"
+                android:alpha="0.5"
+                android:foreground="?attr/selectableItemBackground"
+                />
+
+    </LinearLayout>
 
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etPassword"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:maxLength="10"
-                    android:inputType="numberPassword"
-                    android:padding="10dp"
-                    android:textColor="@color/white"
-                    android:digits="0123456789"
-                    app:boxStrokeColor="@color/white"
-                    app:boxStrokeWidth="2dp"
-                    />
-
-                <Button
-                    android:id="@+id/btnLogin"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:text="Login"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"
-                    android:backgroundTint="@color/orange"
-                    android:enabled="false"
-                    android:alpha="0.5"
-                    app:layout_constraintTop_toBottomOf="@+id/inputContainer"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginTop="24dp"/>
-
-
-                <TextView
-                    android:id="@+id/tvRegister"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:alpha="0.5"
-                    android:clickable="true"
-                    android:enabled="false"
-                    android:paddingTop="12dp"
-                    android:layout_marginStart="73dp"
-                    android:text="Registrarse"
-                    android:textColor="#9EA1A1"
-                    android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
-
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </LinearLayout>
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+    </layout>

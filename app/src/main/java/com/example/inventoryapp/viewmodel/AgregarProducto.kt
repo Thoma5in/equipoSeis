@@ -17,8 +17,7 @@ class AgregarProducto(private val repository: InventoryRepository) : ViewModel()
                 cantidad = cantidad
             )
             repository.insert(producto)
-            // Aquí podrías añadir un LiveData para notificar a la Activity
-            // que la operación ha terminado con éxito.
+
         }
     }
 }
