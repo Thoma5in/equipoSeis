@@ -4,21 +4,41 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.example.inventoryapp.data.AppDatabase
 import com.example.inventoryapp.model.Producto
+import com.google.firebase.firestore.FirebaseFirestore
 import com.example.inventoryapp.repository.InventoryRepository
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class EditProductViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val productoDao = AppDatabase.getDatabase(application).productoDao()
-    private val repository = InventoryRepository(productoDao)
+    private val firestore = FirebaseFirestore.getInstance()
 
     fun getProduct(id: Int): LiveData<Producto?> {
-        return repository.getProductById(id)
+       val liveData = MutableLiveData<Producto?>()
+
+        firestore.collection("productos")
+            .document(id.toString())
+            .addSnapshotListener { snapshot, _ ->
+                if (snapshot != null && snapshot.exists()) {
+                    liveData.value = snapshot.toObject(Producto::class.java)
+                }
+            }
+
+        return liveData
+
     }
 
     fun updateProduct(producto: Producto) {
         viewModelScope.launch {
-            repository.insert(producto) // REPLACE actúa como update
+        try {
+            firestore.collection("productos")
+                .document(producto.codigo.toString())
+                .set(producto)
+                .await()
+        } catch (e: Exception) {
+            e.printStackTrace()
+
+            }
         }
     }
 
