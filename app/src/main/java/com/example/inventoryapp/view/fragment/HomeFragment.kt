@@ -15,6 +15,7 @@ import com.example.inventoryapp.R
 import com.example.inventoryapp.databinding.FragmentHomeBinding
 import com.example.inventoryapp.view.LoginActivity
 import com.example.inventoryapp.view.adapter.ProductAdapter
+import com.example.inventoryapp.view.widget.InventoryWidgetProvider
 import com.example.inventoryapp.viewmodel.HomeViewModel
 import com.google.firebase.auth.FirebaseAuth
 
@@ -91,6 +92,11 @@ class HomeFragment : Fragment() {
         val intent = Intent(requireContext(), LoginActivity::class.java)
         startActivity(intent)
         requireActivity().finish()
+
+        val updateIntent = Intent(requireContext(), InventoryWidgetProvider::class.java).apply {
+            action = "com.example.inventoryapp.ACTION_UPDATE_WIDGET"
+        }
+        requireContext().sendBroadcast(updateIntent)
     }
 
     override fun onDestroyView() {
