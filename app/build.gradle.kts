@@ -60,7 +60,7 @@ ksp {
     arg("room.schemaLocation", "$projectDir/schemas")
 }
 
-
+//dependenciasss
 dependencies {
     val navVersion = "2.3.5"
     implementation("androidx.core:core-ktx:1.9.0")
@@ -116,7 +116,7 @@ dependencies {
     //pa las animations
     implementation("com.airbnb.android:lottie:6.7.1")
 
-    //la autenticacion biometrica :)
+    //la autenticacion biometrica ya no se usa
     implementation("androidx.biometric:biometric:1.1.0")
 
     //FuegoBase BoM
