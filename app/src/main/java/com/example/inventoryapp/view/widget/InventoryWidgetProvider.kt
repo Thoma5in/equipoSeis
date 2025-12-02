@@ -106,6 +106,12 @@ class InventoryWidgetProvider : AppWidgetProvider() {
                     val visible = prefs.getBoolean("saldo_visible", false)
                     prefs.edit().putBoolean("saldo_visible", !visible).apply()
                     onUpdate(context, manager, ids)
+                } else {
+                    val loginIntent = Intent(context, LoginActivity::class.java).apply {
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        putExtra("from_widget", true)
+                    }
+                    context.startActivity(loginIntent)
                 }
             }
             "com.example.inventoryapp.ACTION_UPDATE_WIDGET" -> {
