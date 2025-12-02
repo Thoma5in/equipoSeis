@@ -2,10 +2,10 @@ package com.example.inventoryapp.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.inventoryapp.repository.InventoryRepository
+import com.example.inventoryapp.repository.FirestoreInventoryRepository
 
 
-class InventoryFactory(private val repository: InventoryRepository) : ViewModelProvider.Factory {
+class InventoryFactory(private val repository: FirestoreInventoryRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(AgregarProducto::class.java)) {
             @Suppress("UNCHECKED_CAST")

@@ -21,7 +21,7 @@ class DetailProductFragment : Fragment() {
     private var _binding: FragmentDetailProductBinding? = null
     private val binding get() = _binding!!
     private lateinit var homeViewModel: HomeViewModel
-    private var currentProductId: Long? = null
+    private var currentProductId: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,12 +51,12 @@ class DetailProductFragment : Fragment() {
         }
 
         // Obtener el ID del producto desde los argumentos
-        currentProductId = arguments?.getLong("productId")
+        currentProductId = arguments?.getInt("productId")
 
         // Observar los productos y mostrar el que coincida
         currentProductId?.let { productId ->
             homeViewModel.allProducts.observe(viewLifecycleOwner) { products ->
-                products.find { it.codigo.toLong() == productId }?.let { product ->
+                products.find { it.codigo == productId }?.let { product ->
                     binding.tvProductName.text = product.nombre
                     binding.tvUnitPrice.text =
                         String.Companion.format(Locale.getDefault(), "$ %,.2f", product.precio)
@@ -99,7 +99,7 @@ class DetailProductFragment : Fragment() {
         binding.fabEditProduct.setOnClickListener {
             currentProductId?.let { productId ->
                 val bundle = Bundle().apply {
-                    putInt("productId", productId.toInt())
+                    putInt("productId", productId)
                 }
                 findNavController().navigate(
                     R.id.action_productDetailFragment_to_editProductFragment,
