@@ -1,7 +1,5 @@
 package com.example.inventoryapp.view.fragment
 
-import android.R
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,21 +9,20 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.inventoryapp.data.AppDatabase
+import com.example.inventoryapp.R
 import com.example.inventoryapp.databinding.FragmentAgregarProductoBinding
-import com.example.inventoryapp.repository.FirestoreInventoryRepository
-import com.example.inventoryapp.repository.InventoryRepository
 import com.example.inventoryapp.viewmodel.AgregarProducto
-import com.example.inventoryapp.viewmodel.InventoryFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AgregarProductoFragment : Fragment() {
 
     private var _binding: FragmentAgregarProductoBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: AgregarProducto
+    private val viewModel: AgregarProducto by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,14 +35,6 @@ class AgregarProductoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // Inicialización de viewmodel y repositorio FireStore
-        val repository = FirestoreInventoryRepository()
-
-        val factory = InventoryFactory(repository)
-        viewModel = ViewModelProvider(this, factory)[AgregarProducto::class.java]
-
-        viewModel = AgregarProducto(repository)
 
         inicializarVistas()
         configurarToolbar()
@@ -84,7 +73,7 @@ class AgregarProductoFragment : Fragment() {
                 val colorId = if (estaHabilitado) {
                     R.color.white
                 } else {
-                    com.example.inventoryapp.R.color.gray
+                    R.color.gray
                 }
 
                 val color = ContextCompat.getColor(requireContext(), colorId)

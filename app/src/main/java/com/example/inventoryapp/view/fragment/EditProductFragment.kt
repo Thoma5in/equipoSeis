@@ -1,6 +1,5 @@
 package com.example.inventoryapp.view.fragment
 
-import android.R
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -14,19 +13,20 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.example.inventoryapp.R
 import com.example.inventoryapp.databinding.FragmentEditProductBinding
 import com.example.inventoryapp.model.Producto
 import com.example.inventoryapp.viewmodel.EditProductViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.text.DecimalFormat
 
+@AndroidEntryPoint
 class EditProductFragment : Fragment() {
 
     private var _binding: FragmentEditProductBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: EditProductViewModel by viewModels {
-        EditProductViewModel.Factory(requireActivity().application)
-    }
+    private val viewModel: EditProductViewModel by viewModels()
 
     private var currentProduct: Producto? = null
     private var productId: Int = -1
