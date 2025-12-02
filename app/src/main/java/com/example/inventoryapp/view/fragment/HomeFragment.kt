@@ -46,11 +46,8 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         firebaseAuth = FirebaseAuth.getInstance()
 
-
-        homeViewModel = ViewModelProvider(
-            this,
-            ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
-        ).get(HomeViewModel::class.java)
+        //Inicializamos el ViewModel
+        homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
 
         binding.recyclerViewProductos.apply {
             layoutManager = LinearLayoutManager(context)
@@ -70,11 +67,10 @@ class HomeFragment : Fragment() {
             }
         }
 
-        // OBSERVAMOS allProducts SOLO PARA CARGAR LOS DATOS
-        homeViewModel.allProducts.observe(viewLifecycleOwner, Observer { Productos ->
-            // La visibilidad ya NO se controla aquí
-            productAdapter.submitList(Productos.toList())
-        })
+        // Listado desde Firestore
+        homeViewModel.allProducts.observe(viewLifecycleOwner) { productos ->
+            productAdapter.submitList(productos)
+        }
 
         binding.imageButton.setOnClickListener { logout() }
 

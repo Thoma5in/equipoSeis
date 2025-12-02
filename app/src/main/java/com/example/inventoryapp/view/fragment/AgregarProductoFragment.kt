@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.inventoryapp.data.AppDatabase
 import com.example.inventoryapp.databinding.FragmentAgregarProductoBinding
+import com.example.inventoryapp.repository.FirestoreInventoryRepository
 import com.example.inventoryapp.repository.InventoryRepository
 import com.example.inventoryapp.viewmodel.AgregarProducto
 import com.example.inventoryapp.viewmodel.InventoryFactory
@@ -38,23 +39,25 @@ class AgregarProductoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Inicialización de Room y ViewModel
-        val dao = AppDatabase.Companion.getDatabase(requireContext()).productoDao()
-        val repository = InventoryRepository(dao)
-        val factory = InventoryFactory(repository)
+        // Inicialización de viewmodel y repositorio FireStore
+        val repository = FirestoreInventoryRepository()
 
-        // Inicializar ViewModel
+        val factory = InventoryFactory(repository)
         viewModel = ViewModelProvider(this, factory)[AgregarProducto::class.java]
+
+        viewModel = AgregarProducto(repository)
 
         inicializarVistas()
         configurarToolbar()
         observarCampos()
 
-        binding.btnGuardarProducto.setOnClickListener { // Usar binding para el botón
+        binding.btnGuardarProducto.setOnClickListener {
             if (binding.btnGuardarProducto.isEnabled) {
                 guardarProducto()
             }
         }
+
+
     }
 
     private fun inicializarVistas() {}
@@ -108,16 +111,18 @@ class AgregarProductoFragment : Fragment() {
 
 
         if (codigo != null && precio != null && cantidad != null) {
-            viewModel.guardarNuevoProducto(codigo, nombre, precio, cantidad)
-            val updateIntent = Intent("com.example.inventoryapp.ACTION_UPDATE_WIDGET")
-            updateIntent.setPackage(requireContext().packageName)
-            requireContext().sendBroadcast(updateIntent)
+            viewModel.guardarNuevoProducto(codigo, nombre, precio, cantidad) {success ->
+                if (success) {
+                    Toast.makeText(requireContext(), "Producto Guardado con exito!", Toast.LENGTH_SHORT).show()
+                    findNavController().popBackStack()
 
-            Toast.makeText(requireContext(), "Producto guardado con éxito!", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(requireContext(), "Error al guardar el producto", Toast.LENGTH_SHORT).show()
+                }
+            }
 
-            findNavController().popBackStack() // Vuelve al HomeFragment
-        } else {
-            Toast.makeText(requireContext(), "Verifica los valores numéricos.", Toast.LENGTH_SHORT).show()
+
+
         }
     }
 
