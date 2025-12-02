@@ -94,25 +94,48 @@ class AgregarProductoFragment : Fragment() {
     private fun guardarProducto() {
 
         val codigo = binding.etCodigoProducto.text.toString().toIntOrNull()
-        val nombre = binding.etNombreArticulo.text.toString()
+        val nombre = binding.etNombreArticulo.text.toString().trim()
         val precio = binding.etPrecio.text.toString().toDoubleOrNull()
         val cantidad = binding.etCantidad.text.toString().toIntOrNull()
 
+        if (codigo == null || codigo <= 0) {
+            Toast.makeText(requireContext(), "El código debe ser un número válido mayor que 0", Toast.LENGTH_SHORT).show()
+            return
+        }
 
-        if (codigo != null && precio != null && cantidad != null) {
-            viewModel.guardarNuevoProducto(codigo, nombre, precio, cantidad) {success ->
-                if (success) {
-                    Toast.makeText(requireContext(), "Producto Guardado con exito!", Toast.LENGTH_SHORT).show()
+        if (nombre.isBlank()) {
+            Toast.makeText(requireContext(), "El nombre no puede estar vacío", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (precio == null || precio <= 0) {
+            Toast.makeText(requireContext(), "El precio debe ser un número mayor que 0", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (cantidad == null || cantidad < 0) {
+            Toast.makeText(requireContext(), "La cantidad debe ser un número mayor o igual a 0", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        viewModel.guardarNuevoProducto(codigo, nombre, precio, cantidad) { result ->
+            when (result) {
+
+                1 -> {  // Guardado exitoso
+                    Toast.makeText(requireContext(), "Producto guardado con éxito", Toast.LENGTH_SHORT).show()
                     findNavController().popBackStack()
+                }
 
-                } else {
+                0 -> {  // Ya existe
+                    Toast.makeText(requireContext(), "El producto con el código $codigo ya existe", Toast.LENGTH_SHORT).show()
+                }
+
+                -1 -> { // Error inesperado
                     Toast.makeText(requireContext(), "Error al guardar el producto", Toast.LENGTH_SHORT).show()
                 }
             }
-
-
-
         }
+
     }
 
     override fun onDestroyView() {

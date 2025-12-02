@@ -1,9 +1,11 @@
 package com.example.inventoryapp.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.inventoryapp.model.Producto
 import com.example.inventoryapp.repository.FirestoreInventoryRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -14,7 +16,7 @@ class AgregarProducto @Inject constructor(private val repository: FirestoreInven
         nombre: String,
         precio: Double,
         cantidad: Int,
-        onResult: (Boolean) -> Unit
+        onResult: (Int) -> Unit
     ) {
 
         val producto = Producto(
@@ -24,8 +26,21 @@ class AgregarProducto @Inject constructor(private val repository: FirestoreInven
             cantidad = cantidad
         )
 
-        repository.insert(producto) { success ->
-            onResult(success)          // Notificamos al Fragment
+        viewModelScope.launch {
+            when (val result = repository.insertIfNotExists(producto)) {
+
+                is FirestoreInventoryRepository.InsertResult.Success -> {
+                    onResult(1)
+                }
+
+                is FirestoreInventoryRepository.InsertResult.AlreadyExists -> {
+                    onResult(0)
+                }
+
+                is FirestoreInventoryRepository.InsertResult.Error -> {
+                    onResult(-1)
+                }
+            }
         }
 
     }
