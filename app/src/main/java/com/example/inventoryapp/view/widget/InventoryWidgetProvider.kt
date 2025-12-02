@@ -11,8 +11,8 @@ import android.content.ComponentName
 import android.os.Handler
 import android.os.Looper
 import android.view.View
-import com.example.inventoryapp.data.AppDatabase
-import com.example.inventoryapp.repository.InventoryRepository
+import com.example.inventoryapp.di.WidgetEntryPoint
+import com.example.inventoryapp.repository.FirestoreInventoryRepository
 import com.example.inventoryapp.view.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.EntryPointAccessors
@@ -33,15 +33,15 @@ class InventoryWidgetProvider : AppWidgetProvider() {
 
     private fun updateAppWidget(context: Context, manager: AppWidgetManager, appWidgetId: Int) {
         val prefs = context.getSharedPreferences("widget_prefs", Context.MODE_PRIVATE)
-        val productDao = AppDatabase.getDatabase(context).productoDao()
-        val repository = InventoryRepository(productDao)
+        val hiltEntryPoint = EntryPointAccessors.fromApplication(context, WidgetEntryPoint::class.java)
+        val repository = hiltEntryPoint.firestoreInventoryRepository()
+        val firebaseAuth = hiltEntryPoint.firebaseAuth()
 
-        val widgetModule = EntryPointAccessors.fromApplication(context, WidgetModule::class.java)
-        val firebaseAuth = widgetModule.getFirebaseAuth()
         val isUserLoggedIn = firebaseAuth.currentUser != null
 
         widgetScope.launch {
-            val totalValue = repository.getInventoryTotalValue() ?: 0.0
+            val products = repository.getAllProductsOnce()
+            val totalValue = products.sumOf { it.precio * it.cantidad }
             val formattedTotal = String.format(Locale.getDefault(), "%,.2f", totalValue)
             prefs.edit().putString("saldo_actual", formattedTotal).apply()
 
@@ -56,7 +56,7 @@ class InventoryWidgetProvider : AppWidgetProvider() {
         prefs: android.content.SharedPreferences,
         isUserLoggedIn: Boolean
     ) {
-        val saldoVisible = prefs.getBoolean("saldo_visible", false) && isUserLoggedIn
+        val saldoVisible = prefs.getBoolean("saldo_visible_${appWidgetId}", false) && isUserLoggedIn
         val saldoActual = prefs.getString("saldo_actual", "0") ?: "0"
         val views = RemoteViews(context.packageName, R.layout.widget_inventory)
 
@@ -69,9 +69,10 @@ class InventoryWidgetProvider : AppWidgetProvider() {
 
         val toggleIntent = Intent(context, InventoryWidgetProvider::class.java).apply {
             action = "TOGGLE_SALDO"
+            putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
         }
         val togglePendingIntent = PendingIntent.getBroadcast(
-            context, 0, toggleIntent,
+            context, appWidgetId, toggleIntent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
         views.setOnClickPendingIntent(R.id.widget_eye_icon, togglePendingIntent)
@@ -79,7 +80,7 @@ class InventoryWidgetProvider : AppWidgetProvider() {
 
         val openIntent = Intent(context, LoginActivity::class.java)
         val openPendingIntent = PendingIntent.getActivity(
-            context, 0, openIntent,
+            context, appWidgetId + 1, openIntent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
@@ -96,16 +97,16 @@ class InventoryWidgetProvider : AppWidgetProvider() {
         super.onReceive(context, intent)
         val prefs = context.getSharedPreferences("widget_prefs", Context.MODE_PRIVATE)
         val manager = AppWidgetManager.getInstance(context)
-        val ids = manager.getAppWidgetIds(ComponentName(context, InventoryWidgetProvider::class.java))
+        val appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
+        val hiltEntryPoint = EntryPointAccessors.fromApplication(context, WidgetEntryPoint::class.java)
+        val firebaseAuth = hiltEntryPoint.firebaseAuth()
 
         when (intent.action) {
             "TOGGLE_SALDO" -> {
-                val widgetModule = EntryPointAccessors.fromApplication(context, WidgetModule::class.java)
-                val firebaseAuth = widgetModule.getFirebaseAuth()
                 if (firebaseAuth.currentUser != null) {
-                    val visible = prefs.getBoolean("saldo_visible", false)
-                    prefs.edit().putBoolean("saldo_visible", !visible).apply()
-                    onUpdate(context, manager, ids)
+                    val visible = prefs.getBoolean("saldo_visible_${appWidgetId}", false)
+                    prefs.edit().putBoolean("saldo_visible_${appWidgetId}", !visible).apply()
+                    updateAppWidget(context, manager, appWidgetId)
                 } else {
                     val loginIntent = Intent(context, LoginActivity::class.java).apply {
                         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -115,6 +116,7 @@ class InventoryWidgetProvider : AppWidgetProvider() {
                 }
             }
             "com.example.inventoryapp.ACTION_UPDATE_WIDGET" -> {
+                val ids = manager.getAppWidgetIds(ComponentName(context, InventoryWidgetProvider::class.java))
                 onUpdate(context, manager, ids)
             }
         }

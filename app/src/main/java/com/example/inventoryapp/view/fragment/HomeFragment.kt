@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.inventoryapp.R
@@ -18,18 +18,20 @@ import com.example.inventoryapp.view.adapter.ProductAdapter
 import com.example.inventoryapp.view.widget.InventoryWidgetProvider
 import com.example.inventoryapp.viewmodel.HomeViewModel
 import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var firebaseAuth: FirebaseAuth
 
-    private lateinit var homeViewModel: HomeViewModel
+    private val homeViewModel: HomeViewModel by viewModels()
     private val productAdapter = ProductAdapter { product ->
         val bundle = Bundle().apply {
-            putLong("productId", product.codigo.toLong())
+            putInt("productId", product.codigo)
         }
         findNavController().navigate(R.id.action_homeFragment_to_detailProductFragment, bundle)
     }
@@ -45,9 +47,6 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         firebaseAuth = FirebaseAuth.getInstance()
-
-        //Inicializamos el ViewModel
-        homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
 
         binding.recyclerViewProductos.apply {
             layoutManager = LinearLayoutManager(context)

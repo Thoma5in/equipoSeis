@@ -24,6 +24,30 @@ class FirestoreInventoryRepository {
 
     }
 
+    fun getProductById(productId: Int, onResult: (Producto?) -> Unit): ListenerRegistration {
+        return collection.document(productId.toString())
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    onResult(null)
+                    return@addSnapshotListener
+                }
+
+                if (snapshot != null && snapshot.exists()) {
+                    onResult(snapshot.toObject(Producto::class.java))
+                } else {
+                    onResult(null)
+                }
+            }
+    }
+
+    suspend fun getAllProductsOnce(): List<Producto> {
+        return try {
+            collection.get().await().toObjects(Producto::class.java)
+        } catch (e: Exception) {
+            emptyList()
+        }
+    }
+
 
     // ESCUCHAR TODOS LOS PRODUCTOS EN TIEMPO REAL
     fun getAllProductos(onResult: (List<Producto>) -> Unit): ListenerRegistration {

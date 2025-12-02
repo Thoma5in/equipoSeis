@@ -1,12 +1,13 @@
 package com.example.inventoryapp.viewmodel
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.inventoryapp.model.Producto
 import com.example.inventoryapp.repository.FirestoreInventoryRepository
-import kotlinx.coroutines.launch
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class AgregarProducto(private val repository: FirestoreInventoryRepository) : ViewModel() {
+@HiltViewModel
+class AgregarProducto @Inject constructor(private val repository: FirestoreInventoryRepository) : ViewModel() {
 
     fun guardarNuevoProducto(
         codigo: Int,

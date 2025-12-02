@@ -5,9 +5,12 @@ import androidx.lifecycle.LiveData
 import com.example.inventoryapp.model.Producto
 import com.example.inventoryapp.repository.FirestoreInventoryRepository
 import androidx.lifecycle.MutableLiveData
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class HomeViewModel(
-    private val repository: FirestoreInventoryRepository = FirestoreInventoryRepository()
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val repository: FirestoreInventoryRepository
 ) : ViewModel() {
 
     // variable para LiveData para el estado de carga
