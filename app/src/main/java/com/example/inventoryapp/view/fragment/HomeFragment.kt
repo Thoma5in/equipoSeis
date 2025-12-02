@@ -31,7 +31,8 @@ class HomeFragment : Fragment() {
     private val homeViewModel: HomeViewModel by viewModels()
     private val productAdapter = ProductAdapter { product ->
         val bundle = Bundle().apply {
-            putInt("productId", product.codigo)
+            // Nav graph declara productId como long, así que pasamos un Long
+            putLong("productId", product.codigo.toLong())
         }
         findNavController().navigate(R.id.action_homeFragment_to_detailProductFragment, bundle)
     }
