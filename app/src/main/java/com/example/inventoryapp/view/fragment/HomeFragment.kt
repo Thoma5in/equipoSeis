@@ -54,7 +54,7 @@ class HomeFragment : Fragment() {
             adapter = productAdapter
         }
 
-        // ⭐ LÓGICA DE VISIBILIDAD: CONTROLADA POR EL ESTADO DE CARGA
+
         homeViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             if (isLoading) {
                 // Muestra el Progress Bar y oculta la lista
