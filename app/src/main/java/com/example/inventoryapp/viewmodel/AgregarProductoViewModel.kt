@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AgregarProducto @Inject constructor(private val repository: FirestoreInventoryRepository) : ViewModel() {
+class AgregarProductoViewModel @Inject constructor(private val repository: FirestoreInventoryRepository) : ViewModel() {
 
     fun guardarNuevoProducto(
         codigo: Int,

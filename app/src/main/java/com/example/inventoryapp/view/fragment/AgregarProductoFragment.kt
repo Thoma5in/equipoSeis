@@ -13,7 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.inventoryapp.R
 import com.example.inventoryapp.databinding.FragmentAgregarProductoBinding
-import com.example.inventoryapp.viewmodel.AgregarProducto
+import com.example.inventoryapp.viewmodel.AgregarProductoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,7 +22,7 @@ class AgregarProductoFragment : Fragment() {
     private var _binding: FragmentAgregarProductoBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: AgregarProducto by viewModels()
+    private val viewModel: AgregarProductoViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
