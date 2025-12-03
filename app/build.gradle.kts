@@ -142,6 +142,9 @@ dependencies {
     //junit4 compatibility
     testImplementation("org.robolectric:robolectric:4.12.1")
     testImplementation("org.junit.vintage:junit-vintage-engine:5.10.0")
+    // Turbine para testing de Flows
+    testImplementation("app.cash.turbine:turbine:1.0.0")
+
 
     // Mockito (actual)
     testImplementation("org.mockito:mockito-core:5.12.0")
@@ -162,4 +165,6 @@ dependencies {
 
     // Jacoco
     debugImplementation("org.jacoco:org.jacoco.core:0.8.14")
+
+
 }
